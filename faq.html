@@ -1,0 +1,562 @@
+
+File 3: faq.html
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ | Solana KYC SDK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00ffa3;
+            --secondary: #9945ff;
+            --dark: #0a0a0a;
+            --darker: #050505;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --card-bg: #111111;
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 1.5rem;
+            color: var(--light);
+            text-decoration: none;
+        }
+        
+        .logo-icon {
+            color: var(--primary);
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        .nav-links a.active {
+            color: var(--primary);
+        }
+        
+        .nav-links a.active:after {
+            width: 100%;
+        }
+        
+        .nav-links a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            bottom: -5px;
+            left: 0;
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover:after {
+            width: 100%;
+        }
+        
+        .github-btn {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            padding: 10px 20px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+        }
+        
+        .github-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 255, 163, 0.2);
+        }
+        
+        /* FAQ Header */
+        .faq-header {
+            padding: 100px 0 50px;
+            text-align: center;
+            background: radial-gradient(ellipse at center, rgba(153, 69, 255, 0.1) 0%, transparent 70%);
+        }
+        
+        .faq-header h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .faq-header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            color: #b0b0b0;
+        }
+        
+        /* FAQ Content */
+        .faq-content {
+            padding: 50px 0 100px;
+        }
+        
+        .faq-categories {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--light);
+            padding: 12px 25px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        
+        .category-btn:hover {
+            background: rgba(0, 255, 163, 0.1);
+            border-color: var(--primary);
+        }
+        
+        .category-btn.active {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            border-color: transparent;
+        }
+        
+        .faq-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .faq-item {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .faq-question .icon {
+            color: var(--primary);
+            transition: var(--transition);
+        }
+        
+        .faq-item.active .faq-question .icon {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: #b0b0b0;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 30px 30px;
+            max-height: 1000px;
+        }
+        
+        .faq-answer p {
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer ul, .faq-answer ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+        
+        .code-inline {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--primary);
+        }
+        
+        .contact-support {
+            background: linear-gradient(90deg, rgba(0, 255, 163, 0.1), rgba(153, 69, 255, 0.1));
+            border-radius: 15px;
+            padding: 40px;
+            text-align: center;
+            margin-top: 60px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .contact-support h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #050505;
+            padding: 60px 0 30px;
+            margin-top: 60px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+        
+        .footer-logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .footer-links h4 {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+        
+        .footer-links ul {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #b0b0b0;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary);
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #6c757d;
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .faq-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .faq-question {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+            
+            .contact-support {
+                padding: 30px 20px;
+            }
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--light);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                right: 0;
+                background: var(--dark);
+                flex-direction: column;
+                padding: 20px;
+                gap: 15px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                display: none;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: var(--dark);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0, 255, 163, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">
+                    <i class="fas fa-shield-alt logo-icon"></i>
+                    <span>Solana KYC SDK</span>
+                </a>
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="nav-links" id="navLinks">
+                    <a href="index.html">Home</a>
+                    <a href="quickstart.html">Quick Start</a>
+                    <a href="faq.html" class="active">FAQ</a>
+                    <a href="https://github.com/gitdigital-products" class="github-btn" target="_blank">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- FAQ Header -->
+    <section class="faq-header">
+        <div class="container">
+            <h1>Frequently Asked Questions</h1>
+            <p>Find answers to common questions about the Solana KYC SDK, integration, compliance, and more.</p>
+        </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="faq-content">
+        <div class="container">
+            <!-- Category Filter -->
+            <div class="faq-categories">
+                <button class="category-btn active" data-category="all">All Questions</button>
+                <button class="category-btn" data-category="general">General</button>
+                <button class="category-btn" data-category="integration">Integration</button>
+                <button class="category-btn" data-category="compliance">Compliance</button>
+                <button class="category-btn" data-category="pricing">Pricing & Billing</button>
+            </div>
+
+            <!-- FAQ List -->
+            <div class="faq-list">
+                <!-- General Questions -->
+                <div class="faq-item active" data-category="general">
+                    <div class="faq-question">
+                        <span>What is the Solana KYC SDK?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The Solana KYC SDK is a software development kit that enables Solana blockchain applications to implement Know Your Customer (KYC) and identity verification processes. It provides a seamless way to verify user identities while maintaining compliance with global regulations.</p>
+                        <p>Key features include:</p>
+                        <ul>
+                            <li>Document verification (passport, driver's license, ID cards)</li>
+                            <li>Facial recognition and liveness detection</li>
+                            <li>On-chain verification status storage</li>
+                            <li>Support for multiple verification tiers</li>
+                            <li>Global compliance coverage</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="general">
+                    <div class="faq-question">
+                        <span>How does it differ from traditional KYC solutions?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Traditional KYC solutions are often centralized, slow, and not designed for blockchain applications. Our SDK is:</p>
+                        <ol>
+                            <li><strong>Blockchain-native:</strong> Built specifically for Solana with wallet integration</li>
+                            <li><strong>Privacy-focused:</strong> Uses zero-knowledge proofs and minimal data storage</li>
+                            <li><strong>Fast:</strong> Verification completes in seconds vs. days with traditional providers</li>
+                            <li><strong>Cost-effective:</strong> Lower fees due to blockchain efficiency</li>
+                            <li><strong>Interoperable:</strong> Verification status can be shared across dApps</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <!-- Integration Questions -->
+                <div class="faq-item" data-category="integration">
+                    <div class="faq-question">
+                        <span>How long does integration take?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Most developers can integrate the basic KYC flow in under 30 minutes. The complete integration with custom UI and advanced features typically takes 1-2 days.</p>
+                        <p><strong>Basic integration timeline:</strong></p>
+                        <ul>
+                            <li>0-15 minutes: Install SDK and get API key</li>
+                            <li>15-30 minutes: Implement basic verification flow</li>
+                            <li>30-60 minutes: Test with development environment</li>
+                            <li>1-2 hours: Customize UI and add advanced features</li>
+                        </ul>
+                        <p>We provide comprehensive documentation, example projects, and template code to accelerate integration.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="integration">
+                    <div class="faq-question">
+                        <span>Which wallets are supported?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We support all major Solana wallets:</p>
+                        <ul>
+                            <li><strong>Phantom</strong> (Full support with automatic connection detection)</li>
+                            <li><strong>Solflare</strong> (Complete integration including hardware wallet support)</li>
+                            <li><strong>Ledger</strong> (Hardware wallet integration for maximum security)</li>
+                            <li><strong>Backpack</strong></li>
+                            <li><strong>Glow</strong></li>
+                            <li><strong>Any wallet supporting Solana's Wallet Standard</strong></li>
+                        </ul>
+                        <p>The SDK automatically detects the connected wallet and adapts the verification flow accordingly. You can also manually specify wallet preferences in the configuration.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item" data-category="integration">
+                    <div class="faq-question">
+                        <span>Can I customize the verification UI?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, the SDK provides multiple customization options:</p>
+                        <p><strong>1. Theme customization:</strong> Change colors, fonts, and styling to match your brand</p>
+                        <p><strong>2. Layout options:</strong> Choose between modal, inline, or full-page verification flows</p>
+                        <p><strong>3. Custom components:</strong> Replace specific UI elements with your own components</p>
+                        <p><strong>4. Localization:</strong> Support for multiple languages and regional requirements</p>
+                        <p><strong>5. CSS overrides:</strong> Complete control over styling via CSS classes</p>
+                        <p>For most use cases, basic theme customization is sufficient. For advanced customizations, we provide React and Vue component libraries.</p>
+                    </div>
+                </div>
+
+                <!-- Compliance Questions -->
+                <div class="faq-item" data-category="compliance">
+                    <div class="faq-question">
+                        <span>Which regulations does it support?</span>
+                        <span class="icon">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>The SDK is designed to help you comply with multiple global regulations:</p>
+                        <ul>
+                            <li><strong>FATF Travel Rule:</strong> For cross-border transactions</li>
+                            <li><strong>EU's AMLD5/6:</strong> Anti-Money Laundering Directives</li>
+                            <li><strong>US FinCEN:</strong> Financial Crimes Enforcement Network requirements</li>
+                            <li><strong>BSA:</strong> Bank Secrecy Act compliance</li>
+                            <li><strong>Global sanctions screening:</strong> OFAC, UN, EU sanctions lists</li>
+                            <li><strong>GDPR:</strong> Privacy and data protection for EU users</li>
+                            <li><strong>Regional regulations:</strong> Country-specific requir
